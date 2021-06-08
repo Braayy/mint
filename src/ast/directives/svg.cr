@@ -9,7 +9,7 @@ module Mint
                        @input : Data,
                        @from : Int32,
                        @to : Int32)
-          @real_path = Path[input.file].sibling(path).expand
+          @real_path = expand_asset_path(input, path)
         end
 
         def exists?
@@ -18,6 +18,22 @@ module Mint
 
         def file_contents : String
           File.read(real_path)
+        end
+
+        def expand_asset_path(input, path) : Path
+          if path.starts_with?(ASSET_DIR_ALIAS)
+            asset_path = path[ASSET_DIR_ALIAS.size..]
+  
+            normalized_path = if asset_path[0] == '/'
+              asset_path
+            else
+              "/#{asset_path}"
+            end
+  
+            Path["#{Dir.current}/#{ASSET_DIR}#{normalized_path}"]
+          else
+            Path[input.file].sibling(path).expand
+          end
         end
       end
     end

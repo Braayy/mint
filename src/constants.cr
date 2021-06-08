@@ -18,4 +18,6 @@ module Mint
   PUBLIC_DIR        = "public"
   CSS_DIR           = Path[DIST_DIR, "css"].to_s
   MINT_PACKAGES_DIR = Path[Dir.tempdir, "mint-packages"].to_s
+
+  ASSET_DIR_ALIAS = "#assets"
 end
